@@ -87,6 +87,22 @@ impl Mat {
         m
     }
 
+    pub fn get_row(&self, row: usize) -> Self {
+        assert!(row < self.rows, "Row index out of bounds.");
+        let start = row * self.cols;
+
+        Mat::from_vec(1, self.cols, self.data[start..start + self.cols].to_vec())
+    }
+
+    pub fn get_col(&self, col: usize) -> Self {
+        assert!(col < self.cols, "Column index out of bounds.");
+        let mut v = Vec::with_capacity(self.rows);
+        for i in 0..self.rows {
+            v.push(self[(i, col)]);
+        }
+        Mat::from_vec(self.rows, 1, v)
+    }
+
     pub fn det(&self) -> f64 {
         assert_eq!(self.rows, self.cols, "Matrix must be square!");
 
